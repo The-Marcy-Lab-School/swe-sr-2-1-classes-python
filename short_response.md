@@ -15,14 +15,13 @@ to check how it is rendered before submitting.
 
 ## Question 1
 
-You are designing a system for a community radio station. Three pieces of data
-have to live somewhere.
+Boro Bikes is being rebuilt, and three pieces of data have to live somewhere.
 
 | Data | What the system does with it |
 | --- | --- |
-| A show, with a title, a host, and a start time | Says whether it is on air right now, and how long until it ends |
-| The station's opening hours, keyed by day name | Looked up by day, and never changes while the program runs |
-| A listener's pledge, with an amount and a date | Says whether it is still within the 30-day refund window |
+| A ride, with a member, a bike, and the minutes | Says whether it counts as long, and what it costs |
+| The dock capacity for each station, keyed by station name | Looked up by name, and never changes while the program runs |
+| A member, with a name and a ride limit | Says whether they can take another bike out right now |
 
 For each one, decide whether it should be a **dictionary** or a **class**, and
 defend the choice in one sentence that names the behavior involved. One of the
@@ -35,30 +34,30 @@ your mind.
 
 ## Question 2
 
-A teammate pushes this class and the traceback it produces. They have not
-told you which line is wrong.
+A teammate pushes this class and the traceback it produces. They have not told
+you which line is wrong.
 
 ```py
-class Permit:
-    def __init__(self, plate, zone):
-        plate = plate
-        self.zone = zone
+class Bike:
+    def __init__(self, serial, station):
+        serial = serial
+        self.station = station
 
     def label(self):
-        return f"{self.plate} in zone {self.zone}"
+        return f"{self.serial} at {self.station}"
 ```
 
 ```text
 Traceback (most recent call last):
   File "main.py", line 9, in <module>
-    print(permit.label())
+    print(bike.label())
   File "main.py", line 7, in label
-    return f"{self.plate} in zone {self.zone}"
-AttributeError: 'Permit' object has no attribute 'plate'
+    return f"{self.serial} at {self.station}"
+AttributeError: 'Bike' object has no attribute 'serial'
 ```
 
 The traceback points at `label`, and `label` is not the bug. Explain what
-`plate = plate` actually does inside `__init__`, why Python raises no error
+`serial = serial` actually does inside `__init__`, why Python raises no error
 there, and why the failure surfaces three lines later instead. Name the rule
 about `self` that the fix depends on.
 
