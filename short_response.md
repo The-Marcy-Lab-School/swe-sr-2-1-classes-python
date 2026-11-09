@@ -15,7 +15,9 @@ to check how it is rendered before submitting.
 
 ## Question 1
 
-Two versions of the same Boro Bikes record. The first builds a dictionary, the
+Boro Bikes is a bike-share service operating in New York.
+
+The engineering team is deciding between two versions of code that build the same Boro Bikes record. The first builds a dictionary, the
 second defines a class.
 
 ```py
@@ -24,6 +26,9 @@ def make_bike(serial, station, needs_repair):
 
 def is_rentable(bike):
     return not bike["needs_repair"]
+
+bike = make_bike("BB4231", "30th Street & 4th Avenue", True)
+print(is_rentable(bike)) # False
 ```
 
 ```py
@@ -32,17 +37,21 @@ class Bike:
         self.serial = serial
         self.station = station
         self.needs_repair = needs_repair
-
     def is_rentable(self):
         return not self.needs_repair
+
+bike = Bike("BB4231", "30th Street & 4th Avenue", True)
+print(bike.is_rentable()) # False
 ```
 
-Both work. In two or three sentences, name what the second version provides that
-the first does not, using the words **encapsulation** and **interface**. Then
-give one concrete thing that can go wrong in the first version and cannot go
+Both work but the second approach is what they went with.
+
+In two or three sentences, defend this choice by naming what the second version provides that
+the first does not, using the words **encapsulation** and **interface**. To support your argument
+give one concrete thing that can go wrong in the first version that cannot go
 wrong in the second.
 
-### Your Response
+### Response 1
 
 [Write your response here]
 
@@ -50,18 +59,16 @@ wrong in the second.
 
 Boro Bikes is being rebuilt, and three pieces of data have to live somewhere.
 
-| Data | What the system does with it |
-| --- | --- |
-| A ride, with a member, a bike, and the minutes | Says whether it counts as long, and what it costs |
-| The dock capacity for each station, keyed by station name | Looked up by name, and never changes while the program runs |
-| A member, with a name and a ride limit | Says whether they can take another bike out right now |
+| Data                                                                                             | What the system does with it                                  |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| A "ride", which includes the member on the ride, the bike, and the length of the ride in minutes | Says whether the ride counts as long, and what the ride costs |
+| The dock capacity for each station, keyed by station name                                        | Looked up by name, and never changes while the program runs   |
+| A member, with a name and a ride limit                                                           | Says whether they can take another bike out right now         |
 
 For each one, decide whether it should be a **dictionary** or a **class**, and
-defend the choice in one sentence that names the behavior involved. One of the
-three is a closer call than the other two — say which, and what would change
-your mind.
+defend the choice in one sentence that names the behavior involved.
 
-### Your Response
+### Response 2
 
 [Write your response here]
 
@@ -89,7 +96,6 @@ the program is meant to use. Then name at least one it should leave alone, and
 say what would break if the overnight rebalancing code ran in the middle of the
 afternoon.
 
-### Your Response
+### Response 3
 
 [Write your response here]
-
