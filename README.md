@@ -1,7 +1,5 @@
 # Explaining Classes and Instances
 
-Explain what a class gives you that a dictionary does not, and read a class bug from its traceback.
-
 - [AI Use on This Assignment](#ai-use-on-this-assignment)
 - [Setup](#setup)
 - [Instructions](#instructions)
