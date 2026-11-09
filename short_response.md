@@ -15,33 +15,35 @@ to check how it is rendered before submitting.
 
 ## Question 1
 
-Boro Bikes is a bike-share service operating in New York.
+Harbor Lane Library is a public library with five branches.
 
-The engineering team is deciding between two versions of code that build the same Boro Bikes record. The first builds a dictionary, the
+The engineering team is deciding between two versions of code that build the same Harbor Lane Library record. The first builds a dictionary, the
 second defines a class.
 
 ```py
-def make_bike(serial, station, needs_repair):
-    return {"serial": serial, "station": station, "needs_repair": needs_repair}
+# Version 1: a function that builds a dictionary and a separate function is_available
+def make_book(call_number, title, checked_out):
+    return {"call_number": call_number, "title": title, "checked_out": checked_out}
 
-def is_rentable(bike):
-    return not bike["needs_repair"]
+def is_available(book):
+    return not book["checked_out"]
 
-bike = make_bike("BB4231", "30th Street & 4th Avenue", True)
-print(is_rentable(bike)) # False
+book = make_book("FIC-OKA-2019", "Sea of Lanterns", True)
+print(is_available(book)) # False
 ```
 
 ```py
-class Bike:
-    def __init__(self, serial, station, needs_repair):
-        self.serial = serial
-        self.station = station
-        self.needs_repair = needs_repair
-    def is_rentable(self):
-        return not self.needs_repair
+# Version 2: a class
+class Book:
+    def __init__(self, call_number, title, checked_out):
+        self.call_number = call_number
+        self.title = title
+        self.checked_out = checked_out
+    def is_available(self):
+        return not self.checked_out
 
-bike = Bike("BB4231", "30th Street & 4th Avenue", True)
-print(bike.is_rentable()) # False
+book = Book("FIC-OKA-2019", "Sea of Lanterns", True)
+print(book.is_available()) # False
 ```
 
 Both work but the second approach is what they went with.
@@ -57,13 +59,13 @@ wrong in the second.
 
 ## Question 2
 
-Boro Bikes is being rebuilt, and three pieces of data have to live somewhere.
+Harbor Lane Library's catalog system is being rebuilt, and three pieces of data have to live somewhere.
 
-| Data                                                                                             | What the system does with it                                  |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
-| A "ride", which includes the member on the ride, the bike, and the length of the ride in minutes | Says whether the ride counts as long, and what the ride costs |
-| The dock capacity for each station, keyed by station name                                        | Looked up by name, and never changes while the program runs   |
-| A member, with a name and a ride limit                                                           | Says whether they can take another bike out right now         |
+| Data                                                                                        | What the system does with it                                |
+| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| A "loan", which includes the patron who borrowed the book, the book, and the date it is due | Says whether the loan is overdue, and what the late fee is  |
+| The opening hour for each branch, keyed by branch name                                      | Looked up by name, and never changes while the program runs |
+| A patron, with a name and a borrowing limit                                                 | Says whether they can check out another book right now      |
 
 For each one, decide whether it should be a **dictionary** or a **class**, and
 defend the choice in one sentence that names the behavior involved.
@@ -75,26 +77,33 @@ defend the choice in one sentence that names the behavior involved.
 ## Question 3
 
 ```py
-class Station:
+class StudyRoom:
     def __init__(self, name, capacity):
         self.name = name
         self.capacity = capacity
-        self.bikes = []
+        self.people_inside = 0
 
-    def dock(self, bike):
-        self.bikes.append(bike)
+    def is_full(self):
+        return self.people_inside == self.capacity
 
-    def repair_list(self):
-        return [bike for bike in self.bikes if bike.needs_repair]
+    def enter(self):
+        if self.is_full():
+            print(f"{self.name} is full.")
+            return
+        self.people_inside += 1
 
-    def _rebalance_overnight(self):
-        self.bikes = self.bikes[: self.capacity]
+    def leave(self):
+        if self.people_inside == 0:
+            print(f"{self.name} is already empty.")
+            return
+        self.people_inside -= 1
 ```
 
-Describe this class's **interface**: list the attributes and methods the rest of
-the program is meant to use. Then name at least one it should leave alone, and
-say what would break if the overnight rebalancing code ran in the middle of the
-afternoon.
+Explain how this class's **interface** constrains the ways the rest of the
+program can change `people_inside`. Name the rule that `enter()` and `leave()`
+each enforce, and say what values `people_inside` can hold as a result. Then
+describe what could go wrong if code elsewhere in the program wrote
+`room.people_inside += 1` instead of calling `enter()`.
 
 ### Response 3
 
