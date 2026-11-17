@@ -28,7 +28,7 @@ def make_book(call_number, title, checked_out):
 def is_available(book):
     return not book["checked_out"]
 
-book = make_book("FIC-OKA-2019", "Sea of Lanterns", True)
+book = make_book("FIC-OKA-2019", "Sea of Lanterns", checked_out=True)
 print(is_available(book)) # False
 ```
 
@@ -42,7 +42,7 @@ class Book:
     def is_available(self):
         return not self.checked_out
 
-book = Book("FIC-OKA-2019", "Sea of Lanterns", True)
+book = Book("FIC-OKA-2019", "Sea of Lanterns", checked_out=True)
 print(book.is_available()) # False
 ```
 
